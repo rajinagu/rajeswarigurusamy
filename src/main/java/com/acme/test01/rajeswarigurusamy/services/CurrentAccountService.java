@@ -16,6 +16,10 @@ public class CurrentAccountService implements AccountService {
         CurrentAccount currentAccount = new CurrentAccount(customerId,0, OVERDRAFT);
         System.out.println("New Current Account has been created for customer : " + customerId + " AccountId: " + currentAccount.getAccountId());
     }
+
+    public void openSavingsAccount(String customerId, int amountToDeposit) {
+        // Not implemeted here
+    }
     //Adding synchronization for withdraw and deposit to work fine during multithreading
     public synchronized void withdraw(Long accountId, int withdrawAmount) throws
             AccountNotFoundException, WithdrawalAmountTooLargeException {

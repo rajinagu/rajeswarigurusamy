@@ -16,6 +16,10 @@ public class SavingsAccountService implements AccountService{
         }
     }
 
+    public void openCurrentAccount(String customerId){
+        //Not implemented here
+    }
+
     //Adding synchronization for withdraw and deposit to work fine during multithreading
     public synchronized void withdraw(Long accountId, int withdrawAmount) throws
             WithdrawalAmountTooLargeException {

@@ -11,9 +11,8 @@ import java.util.Optional;
 public interface AccountService {
     //Note: Looks like there is some typo here, Account opening methods should take customerId as input (not accountId)
     //So making some adjustments accordingly
-    //Moving the account opening methods to corresponding classes as it makes more sense to have it in Savings and Current account services
-    /*void openSavingsAccount(String customerId, int amountToDeposit);
-    void openCurrentAccount(String customerId); */
+    void openSavingsAccount(String customerId, int amountToDeposit);
+    void openCurrentAccount(String customerId);
 
     void withdraw(Long accountId, int amountToWithdraw)
             throws AccountNotFoundException, WithdrawalAmountTooLargeException;
