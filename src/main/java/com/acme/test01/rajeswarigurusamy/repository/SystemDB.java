@@ -16,7 +16,6 @@ public class SystemDB {
                 new SavingsAccount("2", 5000),
                 new CurrentAccount("3", 1000, 10000),
                 new CurrentAccount("4", -5000, 20000));
-        System.out.println("Accounts created");
     }
 
     public static SystemDB getInstance() {

@@ -12,7 +12,7 @@ public class SavingsAccountService implements AccountService{
            SavingsAccount savingsAccount =  new SavingsAccount(customerId,amountToDeposit);
             System.out.println("New Savings Account has been created for customer : " + customerId + " AccountId: " + savingsAccount.getAccountId());
         } else {
-            System.out.println("New Savings Account can not be created as the given deposit amount not enough");
+            System.out.println("New Savings Account can not be created as the given deposit amount: " + amountToDeposit + " not enough");
         }
     }
 
