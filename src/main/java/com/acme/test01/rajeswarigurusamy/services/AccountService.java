@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountService {
-    //Note: Looks like there is some typo here, Account opening methods should take customerId as input (not accountId)
-    //So making some adjustments accordingly
-    void openSavingsAccount(String customerId, int amountToDeposit);
-    void openCurrentAccount(String customerId);
+    void openSavingsAccount(Long accountId, int amountToDeposit);
+    void openCurrentAccount(Long accountId);
 
     void withdraw(Long accountId, int amountToWithdraw)
             throws AccountNotFoundException, WithdrawalAmountTooLargeException;
