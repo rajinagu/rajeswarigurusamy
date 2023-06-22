@@ -30,6 +30,11 @@ public class AccountController {
         int balance;
         try {
             Account account = AccountService.validateAccount(request.getAccountId());
+            //Validate the amount is not in negative
+            if(request.getAmount() <= 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Message", "Please enter a valid amount"));
+            }
+
             if(AccountType.SAVINGS.equals(account.getAccountType())) {
                 savingsAccount.withdraw(request.getAccountId(), request.getAmount());
             } else if(AccountType.CURRENT.equals(account.getAccountType())) {
@@ -49,6 +54,10 @@ public class AccountController {
         int balance;
         try {
             Account account = AccountService.validateAccount(request.getAccountId());
+            if(request.getAmount() <= 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Message", "Please enter a valid amount"));
+            }
+
             if(AccountType.SAVINGS.equals(account.getAccountType())) {
                 savingsAccount.deposit(request.getAccountId(), request.getAmount());
             } else if(AccountType.CURRENT.equals(account.getAccountType())) {
