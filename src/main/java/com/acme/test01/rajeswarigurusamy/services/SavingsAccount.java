@@ -26,12 +26,14 @@ public class SavingsAccount implements AccountService {
     //Adding synchronization for withdraw and deposit to work fine during multithreading
     public synchronized void withdraw(Long accountId, int withdrawAmount) throws
             WithdrawalAmountTooLargeException {
+        //Adding the following block of code incase some other API endpoint or service calls this method without validating account
         //Verify the accountId
         Account account = AccountService.validateAccount(accountId);
         //Check the account type is Savings
         if(!account.getAccountType().equals(AccountType.SAVINGS)) {
             throw new AccountNotFoundException(String.format("Given Account Number: [%d] is not a Valid Savings Account number", accountId));
         }
+
         //Check the minimum balance of 2000 (currentBalance - amount should be greater than 2000)
         if ((account.getBalance() - withdrawAmount) < MIN_BALANCE) {
             throw new WithdrawalAmountTooLargeException(
@@ -45,12 +47,14 @@ public class SavingsAccount implements AccountService {
     }
 
     public synchronized void deposit(Long accountId, int amountToDeposit){
+        //Adding the following block of code incase some other API endpoint or service calls this method without validating account
         //Verify the accountId
         Account account = AccountService.validateAccount(accountId);
         //Check the account type is Savings
         if(!account.getAccountType().equals(AccountType.SAVINGS)) {
             throw new AccountNotFoundException(String.format("Given Account Number: [%d] is not a Valid Savings Account number", accountId));
         }
+
         //Update current balance
         account.setBalance(account.getBalance() + amountToDeposit);
         System.out.println("Savings Account balance on AccountId: " + accountId + " after Deposit: " + account.getBalance());

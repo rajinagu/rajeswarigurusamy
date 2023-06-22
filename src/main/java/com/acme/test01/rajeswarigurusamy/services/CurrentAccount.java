@@ -22,11 +22,13 @@ public class CurrentAccount implements AccountService {
     //Adding synchronization for withdraw and deposit to work fine during multithreading
     public synchronized void withdraw(Long accountId, int withdrawAmount) throws
             AccountNotFoundException, WithdrawalAmountTooLargeException {
+        //Adding the following block of code incase some other API endpoint or service calls this method without validating account
         Account account = AccountService.validateAccount(accountId);
         //Check the account type is Current
         if(!account.getAccountType().equals(AccountType.CURRENT)) {
             throw new AccountNotFoundException(String.format("Given Account Number: [%d] is not a Valid Current Account number", accountId));
         }
+
         if (((account.getBalance() + account.getOverdraft()) - withdrawAmount) < 0) {
             throw new WithdrawalAmountTooLargeException(
                     String.format("Your Account doesn't have sufficient balance to withdraw: [%d]. Current Balance: [%d], Overdraft allowed: [%d]"
@@ -40,12 +42,14 @@ public class CurrentAccount implements AccountService {
 
     public synchronized void deposit(Long accountId, int amountToDeposit)throws
             AccountNotFoundException {
+        //Adding the following block of code incase some other API endpoint or service calls this method without validating account
         //Verify the accountId
         Account account = AccountService.validateAccount(accountId);
         //Check the account type is Current
         if(!account.getAccountType().equals(AccountType.CURRENT)) {
             throw new AccountNotFoundException(String.format("Given Account Number: [%d] is not a Valid Current Account number", accountId));
         }
+
         //Update current balance
         account.setBalance(account.getBalance() + amountToDeposit);
         System.out.println("Current Account balance on AccountId: " + accountId + " after Deposit: " + account.getBalance());

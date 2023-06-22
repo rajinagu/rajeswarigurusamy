@@ -20,6 +20,10 @@ public class Account {
         this.overdraft = overdraft;
     }
 
+    public Account(Long id, Long accountId, String customerNumber, AccountType accountType, int balance) {
+        this(id, accountId, customerNumber, accountType, balance, 0);
+    }
+
     public Long getAccountId() {
         return accountId;
     }
