@@ -26,7 +26,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/withdraw", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getChatToPayConfig(@RequestBody AccountRequest request) {
+    public ResponseEntity withdraw(@RequestBody AccountRequest request) {
+        int balance;
         try {
             Account account = AccountService.validateAccount(request.getAccountId());
             if(AccountType.SAVINGS.equals(account.getAccountType())) {
@@ -34,10 +35,31 @@ public class AccountController {
             } else if(AccountType.CURRENT.equals(account.getAccountType())) {
                 currentAccount.withdraw(request.getAccountId(), request.getAmount());
             }
+            balance = account.getBalance();
         } catch(Exception e) {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(Map.of("Message", e.getMessage()));
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Map.of("Current Balance", balance));
+    }
+
+    @RequestMapping(value = "/deposit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deposit(@RequestBody AccountRequest request) {
+        int balance;
+        try {
+            Account account = AccountService.validateAccount(request.getAccountId());
+            if(AccountType.SAVINGS.equals(account.getAccountType())) {
+                savingsAccount.deposit(request.getAccountId(), request.getAmount());
+            } else if(AccountType.CURRENT.equals(account.getAccountType())) {
+                currentAccount.deposit(request.getAccountId(), request.getAmount());
+            }
+            balance = account.getBalance();
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(Map.of("Message", e.getMessage()));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Map.of("Current Balance", balance));
     }
 }
